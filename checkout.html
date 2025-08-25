@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Checkout</title>
+<style>
+:root{
+  --bg:#0b0c10; --panel:#11131a; --muted:#99a0ae; --text:#e8ecf1; --accent:#7dd3fc;
+}
+body{margin:0;background:linear-gradient(180deg,#0b0c10,#0a0b12 60%,#06070b);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+.wrap{max-width:700px;margin:0 auto;padding:24px}
+header{text-align:center;margin-bottom:20px}
+h1{font-weight:800;font-size:clamp(22px,4vw,36px);margin:0}
+.card{background:radial-gradient(1200px 500px at -10% -20%,#1b1f38 0%,#101322 28%,#0c0f1b 55%);
+border:1px solid #1f2837;border-radius:16px;padding:16px;margin-bottom:16px;
+box-shadow:0 10px 30px #00000055}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+input{width:100%;padding:10px 12px;margin-bottom:12px;border-radius:10px;
+background:#0e1220;color:var(--text);border:1px solid #2a3347;font-size:14px}
+.btn{
+  display:block;width:100%;margin-top:16px;background:linear-gradient(180deg,#1e90ff,#3aa5ff);
+  color:white;border:0;border-radius:14px;padding:14px;font-weight:700;font-size:16px;cursor:pointer;
+  box-shadow:0 10px 20px #0070ff33;text-align:center
+}
+.btn:active{transform:translateY(1px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Checkout</h1></header>
+
+<form onsubmit="placeOrder(event)">
+  <div class="card">
+    <h3>Billing Info</h3>
+    <label>Name</label>
+    <input required />
+    <label>Email</label>
+    <input type="email" required />
+  </div>
+
+  <div class="card">
+    <h3>Shipping Address</h3>
+    <label>Street</label>
+    <input required />
+    <label>City</label>
+    <input required />
+    <label>Zip</label>
+    <input required />
+  </div>
+
+  <div class="card">
+    <h3>Payment</h3>
+    <label>Card Number</label>
+    <input required />
+    <label>Expiry</label>
+    <input required />
+    <label>CVV</label>
+    <input required />
+  </div>
+
+  <button class="btn" type="submit">Place Order</button>
+</form>
+</div>
+
+<script>
+function placeOrder(e){
+  e.preventDefault();
+  alert("Order placed successfully!");
+  localStorage.removeItem("cart");
+  window.top.location.href="https://script.google.com/macros/s/AKfycbx5EJSbT_qEUAqy2SisKT4_E5zLBt6cYwZm5209FL5retwJXOgUnLu-vhaGSllOxhtV/exec?page=cart.html";
+}
+</script>
+</body>
+</html>

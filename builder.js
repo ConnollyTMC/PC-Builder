@@ -28,15 +28,15 @@ function populateSelect(id, list) {
 
 // Populate all selects
 function populateAll() {
-  populateSelect('Case', LISTS.cases);
-  populateSelect('Motherboard', LISTS.motherboards);
-  populateSelect('Cpu', LISTS.cpus);
-  populateSelect('Cooler', LISTS.coolers);
-  populateSelect('Gpu', LISTS.gpus);
-  populateSelect('Ram', LISTS.ram);
-  populateSelect('Psu', LISTS.psu);
-  populateSelect('Storage1', LISTS.storage);
-  populateSelect('Storage2', LISTS.storage);
+  populateSelect('case', LISTS.cases);
+  populateSelect('motherboard', LISTS.motherboards);
+  populateSelect('cpu', LISTS.cpus);
+  populateSelect('cooler', LISTS.coolers);
+  populateSelect('gpu', LISTS.gpus);
+  populateSelect('ram', LISTS.ram);
+  populateSelect('psu', LISTS.psu);
+  populateSelect('storage1', LISTS.storage);
+  populateSelect('storage2', LISTS.storage);
   updateCaseNote();
   updateFanPrice();
   calcTotal();

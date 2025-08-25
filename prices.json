@@ -1,34 +1,38 @@
 {
   "cases": [
-    {"name":"Case A","price":100,"maxFanSlots":4,"color":"black"},
-    {"name":"Case B","price":120,"maxFanSlots":6,"color":"white"}
+    { "name": "NZXT H510", "sku": "nzxt-h510", "price": 79, "maxFanSlots": 4, "color": ["black", "white"] },
+    { "name": "Corsair 4000D", "sku": "corsair-4000d", "price": 95, "maxFanSlots": 6, "color": ["black"] }
   ],
   "motherboards": [
-    {"name":"Motherboard A","price":150},
-    {"name":"Motherboard B","price":180}
+    { "name": "ASUS ROG STRIX Z690-E", "sku": "asus-z690e", "price": 399 },
+    { "name": "MSI MAG B660", "sku": "msi-b660", "price": 189 }
   ],
-  "cpus":[
-    {"name":"CPU A","price":300},
-    {"name":"CPU B","price":400}
+  "cpus": [
+    { "name": "Intel i5-13600K", "sku": "i5-13600k", "price": 319 },
+    { "name": "Intel i7-13700K", "sku": "i7-13700k", "price": 429 }
   ],
-  "coolers":[
-    {"name":"Cooler A","price":50,"brand":"NZXT"},
-    {"name":"Cooler B","price":60,"brand":"Thermaltake"}
+  "coolers": [
+    { "name": "NZXT Kraken X63", "sku": "nzxt-x63", "price": 139, "brand": "NZXT" },
+    { "name": "Thermaltake Floe Riing 360", "sku": "tt-floe360", "price": 149, "brand": "Thermaltake" }
   ],
-  "gpus":[
-    {"name":"GPU A","price":500},
-    {"name":"GPU B","price":700}
+  "gpus": [
+    { "name": "NVIDIA RTX 4070", "sku": "rtx4070", "price": 599 },
+    { "name": "MSI RTX 4060 Ti", "sku": "msi-4060ti", "price": 399 }
   ],
-  "ram":[
-    {"name":"16GB RGB","price":80},
-    {"name":"32GB RGB","price":150}
+  "ram": [
+    { "name": "Corsair Vengeance 32GB", "sku": "corsair-32gb", "price": 149 },
+    { "name": "G.Skill Trident Z 16GB", "sku": "gskill-16gb", "price": 89 }
   ],
-  "psu":[
-    {"name":"750W PSU","price":120},
-    {"name":"850W PSU","price":150}
+  "psu": [
+    { "name": "Corsair RM750x", "sku": "corsair-rm750x", "price": 129 },
+    { "name": "EVGA SuperNOVA 850W", "sku": "evga-850w", "price": 139 }
   ],
-  "storage":[
-    {"name":"500GB SSD","price":70},
-    {"name":"1TB SSD","price":120}
-  ]
+  "storage": [
+    { "name": "Samsung 970 EVO 1TB", "sku": "samsung-970-1tb", "price": 109 },
+    { "name": "WD Black SN850 2TB", "sku": "wd-sn850-2tb", "price": 249 }
+  ],
+  "fanPrice": {
+    "NZXT": 15,
+    "Thermaltake": 17
+  }
 }

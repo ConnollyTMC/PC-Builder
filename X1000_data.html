@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Data Dump</title>
+<style>
+body { font-family: monospace; white-space: pre-wrap; padding: 16px; }
+a { text-decoration: none; }
+</style>
+</head>
+<body>
+<div>
+  <a href="https://script.google.com/macros/s/AKfycbx5EJSbT_qEUAqy2SisKT4_E5zLBt6cYwZm5209FL5retwJXOgUnLu-vhaGSllOxhtV/exec?page=X1000.html" target="_top">← Back to Builder</a>
+</div>
+
+<?!= includePrices(); ?>
+
+<h2>Current Data</h2>
+<div id="dump"></div>
+
+<script>
+document.getElementById("dump").textContent = JSON.stringify({
+  updatedAt: (typeof dataUpdatedAt !== "undefined" ? dataUpdatedAt : null),
+  data
+}, null, 2);
+</script>
+</body>
+</html>

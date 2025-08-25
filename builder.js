@@ -30,13 +30,13 @@ function populateSelect(id, list) {
 function populateAll() {
   populateSelect('Case', LISTS.cases);
   populateSelect('Motherboard', LISTS.motherboards);
-  populateSelect('Computer Processor (CPU)', LISTS.cpus);
-  populateSelect('CPU Cooler', LISTS.coolers);
-  populateSelect('Graphics Card (GPU)', LISTS.gpus);
-  populateSelect('Memory (RAM)', LISTS.ram);
-  populateSelect('Power Supply (PSU)', LISTS.psu);
-  populateSelect('Primary Storage (Windows)', LISTS.storage);
-  populateSelect('Secondary Storage', LISTS.storage);
+  populateSelect('Cpu', LISTS.cpus);
+  populateSelect('Cooler', LISTS.coolers);
+  populateSelect('Gpu', LISTS.gpus);
+  populateSelect('Ram', LISTS.ram);
+  populateSelect('Psu', LISTS.psu);
+  populateSelect('Storage1', LISTS.storage);
+  populateSelect('Storage2', LISTS.storage);
   updateCaseNote();
   updateFanPrice();
   calcTotal();

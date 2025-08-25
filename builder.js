@@ -37,7 +37,6 @@ function populateAll() {
   populateSelect('Power Supply (PSU)', LISTS.psu);
   populateSelect('Storage', LISTS.storage);
   populateSelect('Storage 2', LISTS.storage);
-  populateSelect('Storage 3', LISTS.storage);
   updateCaseNote();
   updateFanPrice();
   calcTotal();

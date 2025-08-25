@@ -68,6 +68,7 @@
     { "sku": "6621913", "name": "CORSAIR - RMe Series RM1000e - White", "brand": "Corsair", "wattage": 1000, "price": 100, "color": ["white"] }
   ],
   "storage": [
+    { "sku": "0000000", "name": "No Secondary Storage", "brand": "None", "type": "none", "capacityGB": 0, "price": 0 },
     { "sku": "6594250", "name": "Crucial - P310 1TB (M.2)", "brand": "Crucial", "type": "m2", "capacityGB": 1024, "price": 100 },
     { "sku": "6594262", "name": "Crucial - P310 2TB (M.2)", "brand": "Crucial", "type": "m2", "capacityGB": 2048, "price": 100 },
     { "sku": "6594263", "name": "Crucial - P310 4TB (M.2)", "brand": "Crucial", "type": "m2", "capacityGB": 4096, "price": 100 },
@@ -77,8 +78,7 @@
     { "sku": "9312076", "name": "WD - Blue 2TB 3.5 (HDD)", "brand": "WD", "type": "hdd", "capacityGB": 2048, "price": 100 },
     { "sku": "9026007", "name": "WD - Blue 4TB 3.5 (HDD)", "brand": "Seagate", "type": "hdd", "capacityGB": 4096, "price": 100 },
     { "sku": "9026016", "name": "WD - Blue 6TB 3.5 (HDD)", "brand": "WD", "type": "hdd", "capacityGB": 6044, "price": 100 },
-    { "sku": "10115267", "name": "WD - Blue 8TB 3.5 (HDD)", "brand": "Seagate", "type": "hdd", "capacityGB": 8192, "price": 100 },
-    { "sku": "0000000", "name": "No Secondary Storage", "brand": "None", "type": "none", "capacityGB": 0, "price": 0 }
+    { "sku": "10115267", "name": "WD - Blue 8TB 3.5 (HDD)", "brand": "Seagate", "type": "hdd", "capacityGB": 8192, "price": 100 }
   ],
   "fanSkus": { "NZXT": "6563103", "Thermaltake": "6626441" }
 }

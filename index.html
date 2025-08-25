@@ -4,7 +4,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Custom Gaming Desktop Builder</title>
-<link rel="stylesheet" href="style.css">
+<style>
+:root{--bg:#0b0c10;--panel:#11131a;--muted:#99a0ae;--text:#e8ecf1;--accent:#7dd3fc}
+body{margin:0;background:linear-gradient(180deg,#0b0c10,#0a0b12 60%,#06070b);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+.wrap{max-width:900px;margin:0 auto;padding:24px}
+header{text-align:center;margin-bottom:20px}
+h1{font-weight:800;font-size:clamp(22px,4vw,36px);margin:0}
+.configCard{background:radial-gradient(1200px 500px at -10% -20%,#1b1f38 0%,#101322 28%,#0c0f1b 55%);border:1px solid #1f2837;border-radius:16px;padding:18px;margin-bottom:18px;box-shadow:0 10px 30px #00000055}
+.configCard h3{margin:0 0 12px;font-size:18px}
+.partRow{display:flex;justify-content:space-between;margin:4px 0;font-size:14px}
+.partRow .label{color:var(--muted)}
+.partRow .value{font-weight:600}
+.partRow .price{color:var(--accent)}
+.total{margin-top:28px;padding:20px;border-radius:14px;background:linear-gradient(90deg,#0e1428,#121a32);border:1px solid #1c2540;text-align:center}
+.total h2{margin:0 0 6px;font-size:22px}
+.total .sum{font-weight:800;font-size:28px}
+.btn{display:inline-flex;align-items:center;gap:10px;margin:12px 8px 0;background:linear-gradient(180deg,#1e90ff,#3aa5ff);color:white;border:0;border-radius:14px;padding:12px 18px;font-weight:700;cursor:pointer;box-shadow:0 10px 20px #0070ff33}
+.btn:active{transform:translateY(1px)}
+.btn.clear{background:linear-gradient(180deg,#ef4444,#dc2626)}
+.empty{text-align:center;color:var(--muted);padding:40px 0;font-size:15px}
+.center{text-align:center;margin-top:24px}
+</style>
 </head>
 <body>
 <div class="wrap">

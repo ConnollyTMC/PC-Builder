@@ -3,77 +3,74 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PC Builder</title>
+<title>PC Builder - Choose Components</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
-<header><h1>Build Your PC</h1></header>
+<header><h1>PC Builder</h1></header>
+
+<!-- Container for each component -->
+<div class="configCard">
+  <h3>Case</h3>
+  <select id="case"></select>
+</div>
 
 <div class="configCard">
-  <h3>PC Configuration</h3>
-
-  <div class="optionRow">
-    <div class="label">Case</div>
-    <select id="case"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Motherboard</div>
-    <select id="motherboard"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">CPU</div>
-    <select id="cpu"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Cooler</div>
-    <select id="cooler"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">GPU</div>
-    <select id="gpu"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">RAM</div>
-    <select id="ram"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">PSU</div>
-    <select id="psu"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Storage 1</div>
-    <select id="storage1"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Storage 2</div>
-    <select id="storage2"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Extra Fans (Max <span id="fanCap">—</span>)</div>
-    <input type="number" id="fanCount" value="0" min="0">
-    <div id="fanPrice" class="value">$0</div>
-  </div>
-
-  <div class="total">
-    <h2>Total</h2>
-    <div id="total" class="sum">$0</div>
-    <button class="btn" id="addToCartBtn">Add to Cart</button>
-    <button class="btn" id="viewCartBtn">View Cart</button>
-  </div>
-  <div id="cartMsg" class="center"></div>
-</div>
+  <h3>Motherboard</h3>
+  <select id="motherboard"></select>
 </div>
 
+<div class="configCard">
+  <h3>CPU</h3>
+  <select id="cpu"></select>
+</div>
+
+<div class="configCard">
+  <h3>Cooler</h3>
+  <select id="cooler"></select>
+</div>
+
+<div class="configCard">
+  <h3>GPU</h3>
+  <select id="gpu"></select>
+</div>
+
+<div class="configCard">
+  <h3>RAM</h3>
+  <select id="ram"></select>
+</div>
+
+<div class="configCard">
+  <h3>PSU</h3>
+  <select id="psu"></select>
+</div>
+
+<div class="configCard">
+  <h3>Storage 1</h3>
+  <select id="storage1"></select>
+</div>
+
+<div class="configCard">
+  <h3>Storage 2</h3>
+  <select id="storage2"></select>
+</div>
+
+<div class="configCard">
+  <h3>Extra Fans (Max <span id="fanCap">—</span>)</h3>
+  <input type="number" id="fanCount" value="0" min="0">
+  <div id="fanPrice" class="value">$0</div>
+</div>
+
+<div class="total">
+  <h2>Total</h2>
+  <div id="total" class="sum">$0</div>
+  <button class="btn" id="addToCartBtn">Add to Cart</button>
+  <button class="btn" id="viewCartBtn">View Cart</button>
+</div>
+<div id="cartMsg" class="center"></div>
+
+</div>
 <script src="builder.js"></script>
 </body>
 </html>

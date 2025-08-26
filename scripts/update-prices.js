@@ -4,18 +4,37 @@ import fetch from 'node-fetch';
 
 const PRICES_FILE = path.resolve('./prices.json');
 
-async function fetchPrice(sku) {
-  // Replace this with a real Best Buy API endpoint if you have one.
-  // This is a placeholder using the Best Buy website scraping approach.
+const fetchPrice = async (item) => {
   try {
-    const res = await fetch(`https://api.bestbuy.com/v1/products(sku=${sku})?apiKey=kT5jvtDTyDi85viJ9rxfN0e0&format=json`);
-    const data = await res.json();
-    return data.products[0]?.salePrice ?? 0;
+    const url = `https://www.bestbuy.com/site/${item.sku}.p?skuId=${item.sku}`;
+    const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+    const html = await res.text();
+
+    // Try to find all possible price fields
+    const currentMatch = html.match(/"currentPrice":([0-9.]+)/);
+    const saleMatch = html.match(/"salePrice":([0-9.]+)/);
+    const regularMatch = html.match(/"regularPrice":([0-9.]+)/);
+
+    // Parse numbers if they exist
+    const prices = [];
+    if (currentMatch) prices.push(parseFloat(currentMatch[1]));
+    if (saleMatch) prices.push(parseFloat(saleMatch[1]));
+    if (regularMatch) prices.push(parseFloat(regularMatch[1]));
+
+    if (prices.length > 0) {
+      const highestPrice = Math.max(...prices);
+      console.log(`Updating ${item.name} from $${item.price} to $${highestPrice}`);
+      item.price = highestPrice;
+    } else {
+      console.log(`Price not found for ${item.name}, keeping previous: $${item.price}`);
+    }
+
   } catch (err) {
-    console.error(`Error fetching SKU ${sku}:`, err);
-    return 0;
+    console.log(`Error fetching SKU ${item.sku}:`, err.message);
+    console.log(`Keeping previous price for ${item.name}: $${item.price}`);
   }
-}
+};
+
 
 async function updateCategory(category) {
   for (const item of category) {

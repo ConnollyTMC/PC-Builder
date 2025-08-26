@@ -6,6 +6,6 @@
     "update:prices": "node scripts/update-prices.js"
   },
   "dependencies": {
-    "node-fetch": "^3.4.0"
+    "node-fetch": "^3.3.2"
   }
 }

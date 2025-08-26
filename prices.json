@@ -16,7 +16,7 @@
       "name": "NZXT - H7 Flow",
       "brand": "NZXT",
       "maxFanSlots": 10,
-      "price": 0,
+      "price": 149.99,
       "color": [
         "black",
         "white"
@@ -27,7 +27,7 @@
       "name": "NZXT - H9 Flow",
       "brand": "NZXT",
       "maxFanSlots": 7,
-      "price": 0,
+      "price": 119.99,
       "color": [
         "black",
         "white"
@@ -49,7 +49,7 @@
       "name": "Thermaltake - View 380",
       "brand": "Thermaltake",
       "maxFanSlots": 10,
-      "price": 0,
+      "price": 104.99,
       "color": [
         "black",
         "white"
@@ -81,7 +81,7 @@
       "sku": "6582205",
       "name": "Gigabyte - Z790 Eagle AX",
       "brand": "Gigabyte",
-      "price": 0,
+      "price": 159.99,
       "color": [
         "black"
       ]
@@ -99,7 +99,7 @@
       "sku": "6610999",
       "name": "MSI - Pro Z790-A MAX",
       "brand": "MSI",
-      "price": 0,
+      "price": 215.99,
       "color": [
         "white"
       ]
@@ -117,7 +117,7 @@
       "sku": "6523725",
       "name": "Asus - ROG Strix Z790-E Gaming",
       "brand": "ASUS",
-      "price": 0,
+      "price": 399.99,
       "color": [
         "black"
       ]
@@ -147,7 +147,7 @@
     {
       "sku": "6560418",
       "name": "Intel - Core i9-14900K",
-      "price": 0
+      "price": 499.99
     }
   ],
   "coolers": [
@@ -178,7 +178,7 @@
       "name": "NZXT - Kraken 360 (360mm AIO)",
       "brand": "NZXT",
       "coolerFanUse": 3,
-      "price": 0,
+      "price": 219.99,
       "color": [
         "black",
         "white"
@@ -200,7 +200,7 @@
       "name": "Thermaltake - TH240 RGB (240mm)",
       "brand": "Thermaltake",
       "coolerFanUse": 2,
-      "price": 0,
+      "price": 99.99,
       "color": [
         "black",
         "white"
@@ -223,7 +223,7 @@
       "sku": "6632706",
       "name": "Gigabyte - GeForce RTX 5060 8GB",
       "brand": "Gigabyte",
-      "price": 0,
+      "price": 329.99,
       "color": [
         "black",
         "white"
@@ -243,7 +243,7 @@
       "sku": "6629364",
       "name": "Gigabyte - GeForce RTX 5060 TI 8GB",
       "brand": "Gigabyte",
-      "price": 0,
+      "price": 394.99,
       "color": [
         "black",
         "white"
@@ -281,7 +281,7 @@
       "sku": "6618883",
       "name": "Gigabyte - GeForce RTX 5070 TI 16GB",
       "brand": "Gigabyte",
-      "price": 0,
+      "price": 849.99,
       "color": [
         "black",
         "white"
@@ -291,7 +291,7 @@
       "sku": "6618882",
       "name": "Gigabyte - GeForce RTX 5070 TI 16GB",
       "brand": "Gigabyte",
-      "price": 0,
+      "price": 899.99,
       "color": [
         "black"
       ]
@@ -319,7 +319,7 @@
       "sku": "6616102",
       "name": "Gigabyte - GeForce RTX 5080 16GB",
       "brand": "Gigabyte",
-      "price": 0,
+      "price": 1299.99,
       "color": [
         "black",
         "white"
@@ -338,7 +338,7 @@
       "sku": "6615227",
       "name": "MSI - GeForce RTX 5080 16GB",
       "brand": "MSI",
-      "price": 0,
+      "price": 1299.99,
       "color": [
         "black",
         "white"
@@ -375,7 +375,7 @@
       "sku": "6616095",
       "name": "MSI - GeForce RTX 5090 32GB - Water Cooled",
       "brand": "MSI",
-      "price": 0,
+      "price": 2999.99,
       "color": [
         "black"
       ]
@@ -388,7 +388,7 @@
       "brand": "Corsair",
       "capacityGB": 32,
       "rgb": false,
-      "price": 0,
+      "price": 114.99,
       "color": [
         "black"
       ]
@@ -411,7 +411,7 @@
       "brand": "Corsair",
       "capacityGB": 64,
       "rgb": false,
-      "price": 0,
+      "price": 144.99,
       "color": [
         "black"
       ]
@@ -422,7 +422,7 @@
       "brand": "Corsair",
       "capacityGB": 64,
       "rgb": false,
-      "price": 0,
+      "price": 144.99,
       "color": [
         "white"
       ]
@@ -433,7 +433,7 @@
       "brand": "Corsair",
       "capacityGB": 32,
       "rgb": false,
-      "price": 0,
+      "price": 114.99,
       "color": [
         "black"
       ]
@@ -468,7 +468,7 @@
       "name": "CORSAIR - RMe Series RM750e - Black",
       "brand": "Corsair",
       "wattage": 750,
-      "price": 0,
+      "price": 99.99,
       "color": [
         "black"
       ]
@@ -488,7 +488,7 @@
       "name": "CORSAIR - RMe Series RM1000e - Black",
       "brand": "Corsair",
       "wattage": 1000,
-      "price": 0,
+      "price": 149.99,
       "color": [
         "black"
       ]
@@ -518,7 +518,7 @@
       "name": "CORSAIR - RMe Series RM850e - White",
       "brand": "Corsair",
       "wattage": 850,
-      "price": 0,
+      "price": 154.99,
       "color": [
         "white"
       ]
@@ -528,7 +528,7 @@
       "name": "CORSAIR - RMe Series RM1000e - White",
       "brand": "Corsair",
       "wattage": 1000,
-      "price": 0,
+      "price": 199.99,
       "color": [
         "white"
       ]
@@ -557,7 +557,7 @@
       "brand": "Crucial",
       "type": "m2",
       "capacityGB": 4096,
-      "price": 0
+      "price": 234.99
     },
     {
       "sku": "6394313",
@@ -565,7 +565,7 @@
       "brand": "Crucial",
       "type": "ssd",
       "capacityGB": 1024,
-      "price": 0
+      "price": 66.99
     },
     {
       "sku": "6465362",
@@ -589,7 +589,7 @@
       "brand": "WD",
       "type": "hdd",
       "capacityGB": 2048,
-      "price": 0
+      "price": 69.99
     },
     {
       "sku": "9026007",
@@ -605,7 +605,7 @@
       "brand": "WD",
       "type": "hdd",
       "capacityGB": 6044,
-      "price": 0
+      "price": 119.99
     },
     {
       "sku": "10115267",

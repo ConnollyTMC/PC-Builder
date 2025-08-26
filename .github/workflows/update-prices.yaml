@@ -36,3 +36,4 @@ jobs:
           git add prices.json
           git commit -m "Update Best Buy prices [skip ci]" || echo "No changes to commit"
           git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
+

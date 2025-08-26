@@ -3,76 +3,214 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>PC Builder</title>
-<link rel="stylesheet" href="style.css">
+<title>Custom Gaming Desktop Builder</title>
+<style>
+:root{
+  --bg:#0b0c10; --panel:#11131a; --muted:#99a0ae; --text:#e8ecf1; --accent:#7dd3fc;
+  --ok:#22c55e; --danger:#ef4444; --card:#0f1222;
+}
+body{margin:0;background:linear-gradient(180deg,#0b0c10,#0a0b12 60%,#06070b);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+.wrap{max-width:1100px;margin:0 auto;padding:24px}
+header{text-align:center;margin-bottom:24px}
+h1{font-weight:800;font-size:clamp(22px,4vw,38px);margin:0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.card{background:radial-gradient(1200px 500px at -10% -20%,#1b1f38 0%,#101322 28%,#0c0f1b 55%);border:1px solid #1f2837;border-radius:16px;padding:16px;box-shadow:0 10px 30px #00000055}
+.card h3{margin:0 0 10px;font-size:18px}
+select, input[type="number"]{
+  width:100%;background:#0e1220;color:var(--text);border:1px solid #2a3347;border-radius:12px;padding:10px 12px;font-size:14px;outline:none;
+}
+label{display:block;font-size:12px;color:var(--muted);margin:6px 0 8px}
+.row{display:flex;gap:10px}
+.row > *{flex:1}
+.note{font-size:12px;color:var(--muted);margin-top:8px}
+.total{margin-top:28px;padding:20px;border-radius:14px;background:linear-gradient(90deg,#0e1428,#121a32);border:1px solid #1c2540;text-align:center}
+.total h2{margin:0 0 6px;font-size:22px}
+.price{font-weight:800;font-size:28px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;margin-top:12px;background:linear-gradient(180deg,#1e90ff,#3aa5ff);
+  color:white;border:0;border-radius:14px;padding:12px 18px;font-weight:700;cursor:pointer;box-shadow:0 10px 20px #0070ff33
+}
+.btn:active{transform:translateY(1px)}
+.note{margin-top:8px;color:var(--accent)}
+.err{color:var(--danger);font-size:12px}
+</style>
 </head>
 <body>
 <div class="wrap">
-<header><h1>Build Your PC</h1></header>
+  <header><h1>Custom Gaming Desktop Builder</h1></header>
 
-<div class="configCard">
-  <h3>PC Configuration</h3>
-
-  <div class="optionRow">
-    <div class="label">Case</div>
-    <select id="case"></select>
+  <div class="card" style="margin-bottom:16px;">
+    <h3>Filters</h3>
+    <div class="row">
+      <div>
+        <label for="colorFilter">Color</label>
+        <select id="colorFilter">
+          <option value="all">All Colors</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+        </select>
+      </div>
+    </div>
+    <div class="note">If a product has no color specified, it remains visible.</div>
   </div>
 
-  <div class="optionRow">
-    <div class="label">Motherboard</div>
-    <select id="motherboard"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">CPU</div>
-    <select id="cpu"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Cooler</div>
-    <select id="cooler"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">GPU</div>
-    <select id="gpu"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">RAM</div>
-    <select id="ram"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">PSU</div>
-    <select id="psu"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Storage 1</div>
-    <select id="storage1"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Storage 2</div>
-    <select id="storage2"></select>
-  </div>
-
-  <div class="optionRow">
-    <div class="label">Extra Fans (Max <span id="fanCap">—</span>)</div>
-    <input type="number" id="fanCount" value="0" min="0">
-    <div id="fanPrice" class="value">$0</div>
+  <div class="grid" id="builder">
+    <!-- Cards populated by JS -->
+    <div class="card">
+      <h3>Case</h3>
+      <label for="case">Choose a case</label>
+      <select id="case"></select>
+      <div class="note" id="caseNote">Fan capacity: <span id="fanCap">—</span></div>
+    </div>
+    <div class="card"><h3>Motherboard</h3><label>Choose motherboard</label><select id="motherboard"></select></div>
+    <div class="card"><h3>CPU</h3><label>Pick processor</label><select id="cpu"></select></div>
+    <div class="card"><h3>CPU Cooler</h3><label>Choose cooler</label><select id="cooler"></select><div class="note">Fans match cooler brand.</div></div>
+    <div class="card"><h3>GPU</h3><label>Choose GPU</label><select id="gpu"></select></div>
+    <div class="card"><h3>RAM</h3><label>Choose RAM</label><select id="ram"></select></div>
+    <div class="card"><h3>Power Supply</h3><label>Choose PSU</label><select id="psu"></select></div>
+    <div class="card"><h3>Storage</h3><label>Primary</label><select id="storage1"></select><label>Secondary</label><select id="storage2"></select></div>
+    <div class="card">
+      <h3>Extra Fans</h3>
+      <div class="row">
+        <div><label for="fanCount">Extra 120mm fans</label><input type="number" id="fanCount" min="0" value="0"></div>
+        <div><label>Per-fan price</label><div id="fanPrice" class="price">$0</div></div>
+      </div>
+      <div class="err" id="fanErr" style="display:none;">Exceeds case capacity</div>
+    </div>
   </div>
 
   <div class="total">
     <h2>Total</h2>
-    <div id="total" class="sum">$0</div>
-    <button class="btn" id="addToCartBtn">Add to Cart</button>
-    <button class="btn" id="viewCartBtn">View Cart</button>
+    <div id="total" class="price">$0</div>
+    <button class="btn" id="addToCartBtn">🛒 Add to cart</button>
+    <button class="btn" id="viewCartBtn">📋 View Cart</button>
+    <div id="cartMsg" class="note"></div>
   </div>
-  <div id="cartMsg" class="center"></div>
 </div>
-</div>
-<script src="builder.js"></script>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = n => `$${Number(n||0).toLocaleString()}`;
+
+let DATA = {}; // loaded from JSON
+const FAN_PRICE = { NZXT: 15, Thermaltake: 17 };
+const LISTS = { cases:[], motherboards:[], cpus:[], coolers:[], gpus:[], ram:[], psu:[], storage:[] };
+
+function fetchData(){
+  fetch('prices.json')
+    .then(r=>r.json())
+    .then(json=>{
+      DATA = json;
+      filterAllByColor('all');
+      populateAll();
+    });
+}
+
+function passesColor(item, chosen){
+  if(!item||chosen==='all') return true;
+  if(!item.color) return true;
+  return (Array.isArray(item.color)?item.color:[item.color]).map(s=>s.toLowerCase()).includes(chosen);
+}
+
+function filterAllByColor(chosen){
+  for(let k in LISTS){
+    LISTS[k] = (DATA[k]||[]).filter(x=>passesColor(x,chosen));
+  }
+}
+
+function optionFor(item){
+  const opt=document.createElement('option');
+  opt.value=item.sku||item.name;
+  opt.textContent=`${item.name} — ${fmt(item.price)}`;
+  return opt;
+}
+
+function populateSelect(id,list){
+  const el=$(id); el.innerHTML='';
+  list.forEach(it=>el.appendChild(optionFor(it)));
+  if(el.options.length>0) el.selectedIndex=0;
+}
+
+function populateAll(){
+  populateSelect('case',LISTS.cases);
+  populateSelect('motherboard',LISTS.motherboards);
+  populateSelect('cpu',LISTS.cpus);
+  populateSelect('cooler',LISTS.coolers);
+  populateSelect('gpu',LISTS.gpus);
+  populateSelect('ram',LISTS.ram);
+  populateSelect('psu',LISTS.psu);
+  populateSelect('storage1',LISTS.storage);
+  populateSelect('storage2',LISTS.storage);
+  updateCaseNote();
+  updateFanPrice();
+  calcTotal();
+}
+
+function selectedItem(sel,key){return LISTS[key].find(x=>(x.sku||x.name)==$(sel).value);}
+function updateCaseNote(){
+  const item=selectedItem('case','cases');
+  const cap=item?.maxFanSlots||'—';
+  $('fanCap').textContent=cap;
+  const n=parseInt($('fanCount').value)||0;
+  $('fanErr').style.display=(cap!=='—' && n>cap)?'':'none';
+  if(cap!=='—') $('fanCount').max=cap;
+}
+function coolerBrand(){
+  const c=selectedItem('cooler','coolers');
+  return (c?.brand||'').toLowerCase().includes('thermaltake')?'Thermaltake':'NZXT';
+}
+function updateFanPrice(){
+  const unit=FAN_PRICE[coolerBrand()]||0;
+  $('fanPrice').textContent=fmt(unit);
+  return unit;
+}
+function calcTotal(){
+  const parts = [
+    selectedItem('case','cases')?.price||0,
+    selectedItem('motherboard','motherboards')?.price||0,
+    selectedItem('cpu','cpus')?.price||0,
+    selectedItem('cooler','coolers')?.price||0,
+    selectedItem('gpu','gpus')?.price||0,
+    selectedItem('ram','ram')?.price||0,
+    selectedItem('psu','psu')?.price||0,
+    selectedItem('storage1','storage')?.price||0,
+    selectedItem('storage2','storage')?.price||0
+  ];
+  const qty=parseInt($('fanCount').value)||0;
+  const sum=parts.reduce((a,b)=>a+b,0)+qty*updateFanPrice();
+  $('total').textContent=fmt(sum);
+}
+
+function wire(){
+  $('colorFilter').addEventListener('change',()=>{filterAllByColor($('colorFilter').value); populateAll();});
+  document.querySelectorAll('select,input').forEach(el=>{
+    el.addEventListener('change',()=>{updateCaseNote();calcTotal();});
+    el.addEventListener('keyup',()=>{updateCaseNote();calcTotal();});
+  });
+  $('addToCartBtn').addEventListener('click',()=>{
+    const payload = {
+      case:selectedItem('case','cases')?.name,
+      motherboard:selectedItem('motherboard','motherboards')?.name,
+      cpu:selectedItem('cpu','cpus')?.name,
+      cooler:selectedItem('cooler','coolers')?.name,
+      gpu:selectedItem('gpu','gpus')?.name,
+      ram:selectedItem('ram','ram')?.name,
+      psu:selectedItem('psu','psu')?.name,
+      storage1:selectedItem('storage1','storage')?.name,
+      storage2:selectedItem('storage2','storage')?.name,
+      extraFans:parseInt($('fanCount').value)||0,
+      estTotal:$('total').textContent
+    };
+    const cart=JSON.parse(localStorage.getItem("cart")||"[]");
+    cart.push(payload);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    $('cartMsg').textContent=`✅ Added to cart: ${payload.estTotal}`;
+  });
+  $('viewCartBtn').addEventListener('click',()=>{window.location.href='cart.html';});
+}
+
+fetchData();
+wire();
+</script>
 </body>
 </html>

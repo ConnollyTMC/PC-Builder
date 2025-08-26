@@ -10,6 +10,12 @@ const API_KEY = process.env.BESTBUY_API_KEY || "kT5jvtDTyDi85viJ9rxfN0e0";
 // Delay helper
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Inside updateCategory:
+for (const item of data[category]) {
+  await fetchPrice(item);
+  await delay(400); // 0.4s delay to slow down the requests
+}
+
 // Fetch price from Best Buy API for a SKU
 const fetchPrice = async (item) => {
   const url = `https://api.bestbuy.com/v1/products(sku=${item.sku})?apiKey=${API_KEY}&format=json`;

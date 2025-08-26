@@ -5,7 +5,7 @@ const dataFile = "./prices.json";
 const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 
 // Insert your Best Buy Developer API Key here
-const API_KEY = process.env.BESTBUY_API_KEY || "YOUR_API_KEY_HERE";
+const API_KEY = process.env.BESTBUY_API_KEY || "kT5jvtDTyDi85viJ9rxfN0e0";
 
 // Delay helper
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

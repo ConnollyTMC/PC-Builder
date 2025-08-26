@@ -8,7 +8,7 @@ if (!API_KEY) {
   process.exit(1);
 }
 
-const CATALOG_PATH = process.env.CATALOG_PATH || "catalog.json";
+const CATALOG_PATH = process.env.CATALOG_PATH || "prices.json";
 const ABS_PATH = path.resolve(CATALOG_PATH);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

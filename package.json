@@ -4,5 +4,8 @@
   "type": "module",
   "scripts": {
     "update:prices": "node scripts/update-prices.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.4.0"
   }
 }

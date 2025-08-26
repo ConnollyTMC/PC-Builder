@@ -13,7 +13,7 @@
 <div class="total">
 <h2>Total</h2>
 <div id="cartTotal" class="sum">$0</div>
-<button class="btn" id="viewBackBtn">Back to PC Builder</button>
+<button class="btn" id="viewBackBtn">Back to Cart</button>
 <button class="btn clear" id="clearCartBtn">Clear Cart</button>
 </div>
 </div>
@@ -53,7 +53,7 @@ function renderCart(){
 function clearCart(){setCart([]); renderCart();}
 function wire(){
   $('clearCartBtn').addEventListener('click', clearCart);
-  $('viewBackBtn').addEventListener('click', ()=>{window.location.href='index.html';});
+  $('viewBackBtn').addEventListener('click', ()=>{window.location.href='cart.html';});
 }
 
 renderCart(); wire();

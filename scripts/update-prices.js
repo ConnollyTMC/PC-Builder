@@ -8,7 +8,7 @@ const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 // Delay helper
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// Fetch with timeout
+// Fetch with timeout and detailed logging
 const fetchWithTimeout = async (url, options = {}, timeout = 10000) => {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeout);
@@ -16,6 +16,13 @@ const fetchWithTimeout = async (url, options = {}, timeout = 10000) => {
 
   try {
     return await fetch(url, options);
+  } catch (err) {
+    if (err.name === "AbortError") {
+      console.log(`⏱️ Fetch aborted (timeout) for URL: ${url}`);
+    } else {
+      console.log(`❌ Fetch failed for URL: ${url} - ${err.message}`);
+    }
+    throw err;
   } finally {
     clearTimeout(id);
   }
@@ -39,7 +46,7 @@ const fetchPrice = async (item) => {
     // Extract the JSON containing customerPrice
     const match = html.match(/"customerPrice":\s*({[^}]+})/);
     if (!match) {
-      console.log(`❌ SKU ${item.sku} (${item.name}): price not found`);
+      console.log(`❌ SKU ${item.sku} (${item.name}): price not found, URL: ${url}`);
       item.price = 0;
       return;
     }
@@ -50,7 +57,9 @@ const fetchPrice = async (item) => {
     console.log(`✅ SKU ${item.sku} (${item.name}) updated: $${price}`);
     item.price = price;
   } catch (err) {
-    console.log(`❌ SKU ${item.sku} (${item.name}) failed: ${err.message}`);
+    if (err.name !== "AbortError") {
+      console.log(`❌ SKU ${item.sku} (${item.name}) failed: ${err.message}, URL: ${url}`);
+    }
     item.price = 0;
   }
 };

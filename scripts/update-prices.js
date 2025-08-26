@@ -5,26 +5,42 @@ import fetch from "node-fetch";
 const dataFile = "./prices.json";
 const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 
-// Helper: fetch HTML and extract price
-const fetchPrice = async (item) => {
-  const url = `https://www.bestbuy.com/site/${item.sku}.p`;
+// Delay helper
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Fetch with timeout
+const fetchWithTimeout = async (url, options = {}, timeout = 10000) => {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  options.signal = controller.signal;
 
   try {
-    const res = await fetch(url, {
+    return await fetch(url, options);
+  } finally {
+    clearTimeout(id);
+  }
+};
+
+// Fetch price for a SKU
+const fetchPrice = async (item) => {
+  const url = `https://www.bestbuy.com/site/product/${item.sku}.p?skuId=${item.sku}`;
+
+  try {
+    const res = await fetchWithTimeout(url, {
       headers: {
         "User-Agent":
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
           "(KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
       },
-      timeout: 10000, // 10s timeout
     });
 
     const html = await res.text();
 
-    // Find JSON inside <script type="application/ld+json"> or other known script
+    // Extract the JSON containing customerPrice
     const match = html.match(/"customerPrice":\s*({[^}]+})/);
     if (!match) {
-      console.log(`❌ SKU ${item.sku}: price not found`);
+      console.log(`❌ SKU ${item.sku} (${item.name}): price not found`);
+      item.price = 0;
       return;
     }
 
@@ -35,21 +51,22 @@ const fetchPrice = async (item) => {
     item.price = price;
   } catch (err) {
     console.log(`❌ SKU ${item.sku} (${item.name}) failed: ${err.message}`);
-    item.price = 0; // fallback
+    item.price = 0;
   }
 };
 
 // Update a category
 const updateCategory = async (category) => {
+  console.log(`\nUpdating category: ${category}`);
   for (const item of data[category]) {
     await fetchPrice(item);
+    await delay(500); // 0.5s delay between requests
   }
 };
 
 // Update all categories
 const updatePrices = async () => {
   for (const category of Object.keys(data)) {
-    console.log(`\nUpdating category: ${category}`);
     await updateCategory(category);
   }
 

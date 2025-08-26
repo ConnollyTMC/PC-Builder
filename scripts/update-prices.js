@@ -44,7 +44,7 @@ const updateCategory = async (category) => {
   console.log(`\nUpdating category: ${category}`);
   for (const item of data[category]) {
     await fetchPrice(item);
-    await delay(200); // 0.2s delay to avoid throttling
+    await delay(1000); // 1.0s delay to avoid throttling
   }
 };
 

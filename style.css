@@ -1,28 +1,172 @@
-:root{
-  --bg:#0b0c10; --panel:#11131a; --muted:#99a0ae; --text:#e8ecf1; --accent:#7dd3fc;
-  --ok:#22c55e; --danger:#ef4444; --card:#0f1222;
+:root {
+  --bg: #0b0c10;
+  --panel: #11131a;
+  --muted: #99a0ae;
+  --text: #e8ecf1;
+  --accent: #7dd3fc;
+  --ok: #22c55e;
+  --danger: #ef4444;
+  --card: #0f1222;
 }
-body{margin:0;background:linear-gradient(180deg,#0b0c10,#0b0c10 60%,#0b0c10);color:var(--text);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
-.wrap{max-width:1100px;margin:0 auto;padding:24px}
-header{text-align:center;margin-bottom:24px}
-h1{font-weight:800;font-size:clamp(22px,4vw,38px);margin:0}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.card{background:radial-gradient(1200px 500px at -10% -20%,#1b1f38 0%,#101322 28%,#0c0f1b 55%);border:1px solid #1f2837;border-radius:16px;padding:16px;box-shadow:0 10px 30px #00000055}
-.card h3{margin:0 0 10px;font-size:18px}
-select, input[type="number"]{
-  width:100%;background:#0e1220;color:var(--text);border:1px solid #2a3347;border-radius:12px;padding:10px 12px;font-size:14px;outline:none;
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg,#0b0c10,#0b0c10 60%,#0b0c10);
+  color: var(--text);
+  font-family: ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;
 }
-label{display:block;font-size:12px;color:var(--muted);margin:6px 0 8px}
-.row{display:flex;gap:10px}
-.row > *{flex:1}
-.note{font-size:12px;color:var(--muted);margin-top:8px}
-.total{margin-top:28px;padding:20px;border-radius:14px;background:linear-gradient(90deg,#0e1428,#121a32);border:1px solid #1c2540;text-align:center}
-.total h2{margin:0 0 6px;font-size:22px}
-.price{font-weight:800;font-size:28px}
-.btn{
-  display:inline-flex;align-items:center;gap:10px;margin-top:12px;background:linear-gradient(180deg,#1e90ff,#3aa5ff);
-  color:white;border:0;border-radius:14px;padding:12px 18px;font-weight:700;cursor:pointer;box-shadow:0 10px 20px #0070ff33
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
 }
-.btn:active{transform:translateY(1px)}
-.note{margin-top:8px;color:var(--accent)}
-.err{color:var(--danger);font-size:12px}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: clamp(22px,4vw,38px);
+  margin: 0;
+  text-align: center;
+}
+
+h2 {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card, .configCard {
+  background: radial-gradient(1200px 500px at -10% -20%,#1b1f38 0%,#101322 28%,#0c0f1b 55%);
+  border: 1px solid #1f2837;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 10px 30px #00000055;
+  margin-bottom: 18px;
+}
+
+.card h3, .configCard h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+select, input[type="number"] {
+  width: 100%;
+  background: #0e1220;
+  color: var(--text);
+  border: 1px solid #2a3347;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 6px 0 8px;
+}
+
+.optionRow, .partRow, .row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row > * {
+  flex: 1;
+}
+
+.optionRow .label, .partRow .label {
+  color: var(--muted);
+  text-transform: capitalize;
+  font-size: 12px;
+}
+
+.optionRow select, .optionRow .value {
+  font-weight: 600;
+  background: #0e1428;
+  color: var(--text);
+  border: 1px solid #1f2837;
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+
+.partRow .price {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--accent);
+  margin-top: 8px;
+}
+
+.err {
+  color: var(--danger);
+  font-size: 12px;
+}
+
+.total {
+  margin-top: 28px;
+  padding: 20px;
+  border-radius: 14px;
+  background: linear-gradient(90deg,#0e1428,#121a32);
+  border: 1px solid #1c2540;
+  text-align: center;
+}
+
+.total h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.total .price, .total .sum {
+  font-weight: 800;
+  font-size: 28px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  background: linear-gradient(180deg,#1e90ff,#3aa5ff);
+  color: white;
+  border: 0;
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 20px #0070ff33;
+  transition: transform 0.15s;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn.clear {
+  background: linear-gradient(180deg,#ef4444,#dc2626);
+}
+
+.empty, .center {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
+  font-size: 15px;
+  margin-top: 24px;
+}

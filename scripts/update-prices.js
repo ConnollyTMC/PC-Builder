@@ -8,7 +8,7 @@ async function fetchPrice(sku) {
   // Replace this with a real Best Buy API endpoint if you have one.
   // This is a placeholder using the Best Buy website scraping approach.
   try {
-    const res = await fetch(`https://api.bestbuy.com/v1/products(sku=${sku})?apiKey=YOUR_API_KEY&format=json`);
+    const res = await fetch(`https://api.bestbuy.com/v1/products(sku=${sku})?apiKey=kT5jvtDTyDi85viJ9rxfN0e0&format=json`);
     const data = await res.json();
     return data.products[0]?.salePrice ?? 0;
   } catch (err) {

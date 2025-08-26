@@ -1,3 +1,4 @@
+
 {
   "cases": [
     {
@@ -72,7 +73,7 @@
       "sku": "10331204",
       "name": "Asus - TUF Gaming B760",
       "brand": "ASUS",
-      "price": 0,
+      "price": 179.00,
       "color": [
         "black"
       ]
@@ -108,7 +109,7 @@
       "sku": "10116087",
       "name": "MSI - PG Z790 Edge",
       "brand": "MSI",
-      "price": 0,
+      "price": 299.99,
       "color": [
         "white"
       ]
@@ -127,22 +128,22 @@
     {
       "sku": "10202011",
       "name": "Intel - Core i5-13400F",
-      "price": 0
+      "price": 165.99
     },
     {
       "sku": "10148491",
       "name": "Intel - Core i5-14600K",
-      "price": 0
+      "price": 259.99
     },
     {
       "sku": "10362208",
       "name": "Intel - Core i7-13700",
-      "price": 0
+      "price": 340.99
     },
     {
       "sku": "10148448",
       "name": "Intel - Core i7-14700K",
-      "price": 0
+      "price": 399.99
     },
     {
       "sku": "6560418",
@@ -156,7 +157,7 @@
       "name": "NZXT - T120 (Air Cooler)",
       "brand": "NZXT",
       "coolerFanUse": 1,
-      "price": 0,
+      "price": 58.16,
       "color": [
         "black",
         "white"
@@ -167,7 +168,7 @@
       "name": "NZXT - Kraken 240 (360mm AIO)",
       "brand": "NZXT",
       "coolerFanUse": 2,
-      "price": 0,
+      "price": 204.58,
       "color": [
         "black",
         "white"
@@ -613,7 +614,7 @@
       "brand": "Seagate",
       "type": "hdd",
       "capacityGB": 8192,
-      "price": 0
+      "price": 213.40
     },
     {
       "sku": "0000000",

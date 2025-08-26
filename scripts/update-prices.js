@@ -1,21 +1,34 @@
-import fs from 'fs';
-import path from 'path';
-import fetch from 'node-fetch';
+import fs from "fs";
+import fetch from "node-fetch";
 
-const PRICES_FILE = path.resolve('./prices.json');
+// Load the prices.json file
+const dataFile = "./prices.json";
+const data = JSON.parse(fs.readFileSync(dataFile, "utf-8"));
 
+// Helper to fetch a single SKU price with timeout
+const fetchWithTimeout = async (url, options = {}, timeout = 10000) => {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("Fetch timeout")), timeout)
+    ),
+  ]);
+};
+
+// Fetch price for a single item
 const fetchPrice = async (item) => {
   try {
+    console.log(`Fetching price for ${item.name} (${item.sku})...`);
+
     const url = `https://www.bestbuy.com/site/${item.sku}.p?skuId=${item.sku}`;
-    const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+    const res = await fetchWithTimeout(url, { headers: { "User-Agent": "Mozilla/5.0" } });
     const html = await res.text();
 
-    // Try to find all possible price fields
+    // Extract price fields from HTML
     const currentMatch = html.match(/"currentPrice":([0-9.]+)/);
     const saleMatch = html.match(/"salePrice":([0-9.]+)/);
     const regularMatch = html.match(/"regularPrice":([0-9.]+)/);
 
-    // Parse numbers if they exist
     const prices = [];
     if (currentMatch) prices.push(parseFloat(currentMatch[1]));
     if (saleMatch) prices.push(parseFloat(saleMatch[1]));
@@ -23,37 +36,37 @@ const fetchPrice = async (item) => {
 
     if (prices.length > 0) {
       const highestPrice = Math.max(...prices);
-      console.log(`Updating ${item.name} from $${item.price} to $${highestPrice}`);
+      console.log(`  → Found prices: ${prices.join(", ")}, using highest: $${highestPrice}`);
       item.price = highestPrice;
     } else {
-      console.log(`Price not found for ${item.name}, keeping previous: $${item.price}`);
+      console.log(`  → Price not found, keeping previous: $${item.price}`);
     }
 
   } catch (err) {
-    console.log(`Error fetching SKU ${item.sku}:`, err.message);
-    console.log(`Keeping previous price for ${item.name}: $${item.price}`);
+    console.log(`  → Error fetching SKU ${item.sku}: ${err.message}`);
+    console.log(`  → Keeping previous price: $${item.price}`);
   }
 };
 
-
-async function updateCategory(category) {
-  for (const item of category) {
-    const newPrice = await fetchPrice(item.sku);
-    console.log(`Updating ${item.name} from $${item.price} to $${newPrice}`);
-    item.price = newPrice;
+// Update all items in a category
+const updateCategory = async (category) => {
+  for (const item of data[category]) {
+    await fetchPrice(item);
   }
-}
+};
 
-async function updatePrices() {
-  const fileData = fs.readFileSync(PRICES_FILE, 'utf-8');
-  const prices = JSON.parse(fileData);
-
-  for (const key of Object.keys(prices)) {
-    await updateCategory(prices[key]);
+// Main function to update all categories
+const updatePrices = async () => {
+  const categories = Object.keys(data);
+  for (const cat of categories) {
+    console.log(`\nUpdating category: ${cat}`);
+    await updateCategory(cat);
   }
 
-  fs.writeFileSync(PRICES_FILE, JSON.stringify(prices, null, 2));
-  console.log('All prices updated!');
-}
+  // Write updated prices back to file
+  fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
+  console.log("\nAll prices updated and saved to prices.json!");
+};
 
+// Run the updater
 updatePrices();

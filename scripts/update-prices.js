@@ -1,62 +1,60 @@
 import fs from "fs";
 import fetch from "node-fetch";
 
-// Load prices.json
+// Load your prices.json
 const dataFile = "./prices.json";
-const data = JSON.parse(fs.readFileSync(dataFile, "utf-8"));
+const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 
-// Helper: fetch JSON for a SKU from Best Buy API endpoint
-const fetchSkuJson = async (sku) => {
-  try {
-    const url = `https://www.bestbuy.com/api/3.0/products/${sku}`;
-    const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
-    if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-    return await res.json();
-  } catch (err) {
-    console.log(`  → Error fetching SKU ${sku}: ${err.message}`);
-    return null;
-  }
-};
-
-// Fetch price for a single item
+// Helper: fetch HTML and extract price
 const fetchPrice = async (item) => {
-  console.log(`Fetching price for ${item.name} (${item.sku})...`);
-  const skuJson = await fetchSkuJson(item.sku);
-  if (!skuJson || !skuJson.skus) {
-    console.log(`  → No data returned for SKU ${item.sku}, keeping previous price: $${item.price}`);
-    return;
-  }
+  const url = `https://www.bestbuy.com/site/${item.sku}.p`;
 
-  const skuData = skuJson.skus.find(s => s.skuId == item.sku);
-  if (!skuData || !skuData.customerPrice) {
-    console.log(`  → No customerPrice found for SKU ${item.sku}, keeping previous: $${item.price}`);
-    return;
-  }
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 " +
+          "(KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+      },
+      timeout: 10000, // 10s timeout
+    });
 
-  const price = skuData.customerPrice;
-  console.log(`  → Found customerPrice: $${price}`);
-  item.price = price;
+    const html = await res.text();
+
+    // Find JSON inside <script type="application/ld+json"> or other known script
+    const match = html.match(/"customerPrice":\s*({[^}]+})/);
+    if (!match) {
+      console.log(`❌ SKU ${item.sku}: price not found`);
+      return;
+    }
+
+    const priceObj = JSON.parse(match[1]);
+    const price = priceObj.value || 0;
+
+    console.log(`✅ SKU ${item.sku} (${item.name}) updated: $${price}`);
+    item.price = price;
+  } catch (err) {
+    console.log(`❌ SKU ${item.sku} (${item.name}) failed: ${err.message}`);
+    item.price = 0; // fallback
+  }
 };
 
-// Update all items in a category
+// Update a category
 const updateCategory = async (category) => {
   for (const item of data[category]) {
     await fetchPrice(item);
   }
 };
 
-// Main updater
+// Update all categories
 const updatePrices = async () => {
-  const categories = Object.keys(data);
-  for (const cat of categories) {
-    console.log(`\nUpdating category: ${cat}`);
-    await updateCategory(cat);
+  for (const category of Object.keys(data)) {
+    console.log(`\nUpdating category: ${category}`);
+    await updateCategory(category);
   }
 
-  // Write back to file
   fs.writeFileSync(dataFile, JSON.stringify(data, null, 2));
-  console.log("\nAll prices updated and saved to prices.json!");
+  console.log("\nAll prices updated!");
 };
 
-// Run the updater
 updatePrices();

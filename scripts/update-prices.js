@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 const dataFile = "./prices.json";
 const data = JSON.parse(fs.readFileSync(dataFile, "utf8"));
 
-// Insert your Best Buy Developer API Key here or use environment variable
+// Insert your Best Buy Developer API Key here
 const API_KEY = process.env.BESTBUY_API_KEY || "YOUR_API_KEY_HERE";
 
 // Delay helper
@@ -26,7 +26,7 @@ const fetchPrice = async (item) => {
       return;
     }
 
-    // Use customerPrice if available, else salePrice
+    // Use customerPrice if available, else regular salePrice
     const product = json.products[0];
     const price =
       product.customerPrice?.value || product.salePrice || 0;
@@ -44,7 +44,7 @@ const updateCategory = async (category) => {
   console.log(`\nUpdating category: ${category}`);
   for (const item of data[category]) {
     await fetchPrice(item);
-    await delay(400); // 0.4s delay per SKU
+    await delay(200); // 0.2s delay to avoid throttling
   }
 };
 

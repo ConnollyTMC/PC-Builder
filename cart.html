@@ -8,58 +8,114 @@
 </head>
 <body>
 <div class="wrap">
-<header><h1>Your Cart</h1></header>
-<div id="cartList"></div>
-<div class="total">
-<h2>Total</h2>
-<div id="cartTotal" class="sum">$0</div>
-<button class="btn" id="viewBackBtn">Back to PC Builder</button>
-<div id="paypal-button-container"></div>
-<button class="btn clear" id="clearCartBtn">Clear Cart</button>
+  <header><h1>Your Cart</h1></header>
+  
+  <div id="cartList"></div>
+  
+  <div class="total">
+    <h2>Total</h2>
+    <div id="cartTotal" class="sum">$0</div>
+    
+    <button class="btn" id="viewBackBtn">Back to PC Builder</button>
+    <button class="btn clear" id="clearCartBtn">Clear Cart</button>
+    
+    <!-- PayPal Button Container -->
+    <div id="paypal-button-container"></div>
+  </div>
 </div>
-</div>
+
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_SANDBOX_CLIENT_ID&currency=USD"></script>
 
 <script>
+// --- Utility Functions ---
 const $ = id => document.getElementById(id);
 
-function getCart(){return JSON.parse(localStorage.getItem('cart')||'[]');}
-function setCart(c){localStorage.setItem('cart', JSON.stringify(c||[]));}
+function getCart(){ return JSON.parse(localStorage.getItem('cart') || '[]'); }
+function setCart(c){ localStorage.setItem('cart', JSON.stringify(c || [])); }
 
+// --- Render Cart ---
 function renderCart(){
   const cart = getCart();
   const list = $('cartList');
   list.innerHTML = '';
   let sum = 0;
+
   if(!cart.length) {
     list.innerHTML = '<div class="empty">Your cart is empty.</div>';
     $('cartTotal').textContent = '$0';
     return;
   }
-  cart.forEach((c,i)=>{
+
+  cart.forEach((c, i) => {
     const div = document.createElement('div');
     div.className = 'configCard';
     div.innerHTML = `<h3>Configuration ${i+1}</h3>`;
+    
     for(const [k,v] of Object.entries(c)){
       if(k==='estTotal') continue;
       div.innerHTML += `<div class="partRow"><div class="label">${k}</div><div class="value">${v||'—'}</div></div>`;
     }
+    
     div.innerHTML += `<div class="partRow"><div class="label">Subtotal</div><div class="price">${c.estTotal||'$0'}</div></div>`;
     list.appendChild(div);
+
     const val = parseFloat((c.estTotal||'0').replace(/[^\d.]/g,''))||0;
     sum += val;
   });
+
   $('cartTotal').textContent = '$'+sum.toLocaleString();
 }
 
-function clearCart(){setCart([]); renderCart();}
-function wire(){
-  $('clearCartBtn').addEventListener('click', clearCart);
-  $('viewBackBtn').addEventListener('click', ()=>{window.location.href='index.html';});
-  $('viewCheckoutBtn').addEventListener('click', ()=>{window.location.href='checkout.html';});
+// --- Clear Cart ---
+function clearCart(){ setCart([]); renderCart(); }
+
+// --- Get Cart Total ---
+function getCartTotal(){
+  const cart = getCart();
+  let total = 0;
+  cart.forEach(c=>{
+    total += parseFloat((c.estTotal||'0').replace(/[^\d.]/g,'')) || 0;
+  });
+  return total.toFixed(2);
 }
 
-renderCart(); wire();
+// --- Wire Buttons ---
+function wire(){
+  $('clearCartBtn').addEventListener('click', clearCart);
+  $('viewBackBtn').addEventListener('click', ()=>{ window.location.href='index.html'; });
+}
+
+renderCart();
+wire();
+
+// --- PayPal Button Integration ---
+paypal.Buttons({
+  createOrder: function(data, actions){
+    const total = getCartTotal();
+    if(total === "0.00") {
+      alert("Your cart is empty.");
+      return;
+    }
+    return actions.order.create({
+      purchase_units: [{
+        amount: { value: total },
+        description: "Custom PC Order"
+      }]
+    });
+  },
+  onApprove: function(data, actions){
+    return actions.order.capture().then(function(details){
+      alert("Payment completed by " + details.payer.name.given_name);
+      clearCart();
+    });
+  },
+  onError: function(err){
+    console.error(err);
+    alert("Payment failed. Please try again.");
+  }
+}).render('#paypal-button-container');
+
 </script>
-  <script src="https://www.paypal.com/sdk/js?client-id=AQiioH-DGdsjDiNC50Bt0eKQtejnt4NXpGp_q08Zjg8l67HhaozGl5upZVU6RWUesGYlmqkB8w8n_Hde&currency=USD"></script>\
 </body>
 </html>

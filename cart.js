@@ -47,34 +47,35 @@ function wire(){
 
   // Replace checkout button with PayPal button container
   const checkoutBtn = $('viewCheckoutBtn');
-  const container = document.createElement('div');
-  container.id = 'paypal-button-container';
-  checkoutBtn.replaceWith(container);
+const container = document.createElement('div');
+container.id = 'paypal-button-container';
+checkoutBtn.replaceWith(container);
 
-  // Initialize PayPal button
-  paypal.Buttons({
-    createOrder: function(data, actions){
-      const total = getCartTotal();
-      if(total==='0') return alert('Your cart is empty.');
-      return actions.order.create({
-        purchase_units: [{
-          amount: { value: total },
-          description: 'Custom PC Order'
-        }]
-      });
-    },
-    onApprove: function(data, actions){
-      return actions.order.capture().then(function(details){
-        alert('Payment completed by ' + details.payer.name.given_name);
-        clearCart();
-      });
-    },
-    onError: function(err){
-      console.error(err);
-      alert('Payment failed. Please try again.');
+paypal.Buttons({
+  createOrder: function(data, actions) {
+    const total = getCartTotal();
+    if(total === '0') {
+      alert('Your cart is empty.');
+      return;
     }
-  }).render('#paypal-button-container');
-}
+    return actions.order.create({
+      purchase_units: [{
+        amount: { value: total },
+        description: 'Custom PC Order'
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    return actions.order.capture().then(function(details) {
+      alert('Payment completed by ' + details.payer.name.given_name);
+      clearCart();
+    });
+  },
+  onError: function(err) {
+    console.error(err);
+    alert('Payment failed. Please try again.');
+  }
+}).render('#paypal-button-container');
 
 renderCart(); wire();
 </script>

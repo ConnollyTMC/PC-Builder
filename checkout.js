@@ -4,6 +4,7 @@ function getCart() {
   return JSON.parse(localStorage.getItem("cart") || "[]");
 }
 
+// Render cart as a table summary
 function renderCartSummary() {
   const cart = getCart();
   const tbody = document.querySelector("#cartSummary tbody");
@@ -42,80 +43,102 @@ function renderCartSummary() {
   return total.toFixed(2);
 }
 
+// Generate fallback order ID
 function generateFallbackOrderId() {
   return "ORDER-" + Date.now() + "-" + Math.floor(Math.random() * 10000);
 }
 
+// Initialize page
 document.addEventListener("DOMContentLoaded", () => {
   renderCartSummary();
 
+  // Back to cart button
   $("backCartBtn").addEventListener("click", () => {
     window.location.href = "cart.html";
   });
 
+  // Initialize PayPal button
   paypal.Buttons({
-  createOrder: function(data, actions) {
-    // Get form values
-    const fullName = $("#fullName").value.trim();
-    const email = $("#email").value.trim();
-    const phone = $("#phone").value.trim();
-    const address = $("#address").value.trim();
+    createOrder: function(data, actions) {
+      const fullName = $("#fullName").value.trim();
+      const email = $("#email").value.trim();
+      const phone = $("#phone").value.trim();
+      const address = $("#address").value.trim();
 
-    // Validation
-    if (!fullName || !email || !phone || !address) {
-      alert("Please fill out all required fields before payment.");
-      return; // ⚠ Must return nothing to stop PayPal
-    }
+      if (!fullName || !email || !phone || !address) {
+        alert("Please fill out all required fields before payment.");
+        return; // stop execution, do not create order
+      }
 
-    const cart = getCart();
-    if (!cart.length) {
-      alert("Your cart is empty.");
-      return;
-    }
+      const cart = getCart();
+      if (!cart.length) {
+        alert("Your cart is empty.");
+        return;
+      }
 
-    let items = [];
-    let total = 0;
+      let items = [];
+      let total = 0;
 
-    cart.forEach((c, i) => {
-      for (const [k, v] of Object.entries(c)) {
-        if (k === "estTotal" || !v) continue;
+      cart.forEach((c, i) => {
+        for (const [k, v] of Object.entries(c)) {
+          if (k === "estTotal" || !v) continue;
+          items.push({
+            name: `${k}: ${v}`,
+            unit_amount: { currency_code: "USD", value: "0.00" },
+            quantity: "1"
+          });
+        }
+        const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
+        total += val;
         items.push({
-          name: `${k}: ${v}`,
-          unit_amount: { currency_code: "USD", value: "0.00" }, 
+          name: `Configuration ${i + 1} Subtotal`,
+          unit_amount: { currency_code: "USD", value: val.toFixed(2) },
           quantity: "1"
         });
-      }
-      const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
-      total += val;
-      items.push({
-        name: `Configuration ${i+1} Subtotal`,
-        unit_amount: { currency_code: "USD", value: val.toFixed(2) },
-        quantity: "1"
       });
-    });
 
-    // ⚠ Return the created order
-    return actions.order.create({
-      purchase_units: [{
-        amount: {
-          currency_code: "USD",
-          value: total.toFixed(2),
-          breakdown: {
-            item_total: { currency_code: "USD", value: total.toFixed(2) }
-          }
-        },
-        items: items
-      }]
-    });
-  },
-  onApprove: function(data, actions) {
-    return actions.order.capture().then(details => {
-      // Save order to sessionStorage and redirect
-    });
-  },
-  onError: function(err) {
-    console.error(err);
-    alert("Payment failed. Please try again.");
-  }
-}).render("#paypal-button-container");
+      // Must RETURN the order
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            currency_code: "USD",
+            value: total.toFixed(2),
+            breakdown: { item_total: { currency_code: "USD", value: total.toFixed(2) } }
+          },
+          items: items
+        }]
+      });
+    },
+
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(details => {
+        const orderId = details.id || generateFallbackOrderId();
+
+        const orderInfo = {
+          id: orderId,
+          status: details.status,
+          payerName: $("#fullName").value,
+          payerEmail: $("#email").value,
+          payerPhone: $("#phone").value,
+          payerAddress: $("#address").value,
+          amount: details.purchase_units[0].amount.value,
+          items: details.purchase_units[0].items.map(i => ({ name: i.name, value: i.unit_amount.value })) || []
+        };
+
+        // Save to sessionStorage
+        sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
+
+        // Clear cart
+        localStorage.removeItem("cart");
+
+        // Redirect to confirmation page
+        window.location.href = "order-confirmation.html";
+      });
+    },
+
+    onError: function(err) {
+      console.error("PayPal error:", err);
+      alert("Payment failed. Please try again.");
+    }
+  }).render("#paypal-button-container");
 });

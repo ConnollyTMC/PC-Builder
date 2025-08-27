@@ -1,7 +1,7 @@
 // --- Utility ---
 const $ = id => document.getElementById(id);
 
-// Get order info from localStorage/sessionStorage
+// Get order info from sessionStorage
 function getOrderDetails() {
   return JSON.parse(sessionStorage.getItem("lastOrder") || "{}");
 }
@@ -36,10 +36,35 @@ function renderConfirmation() {
   box.innerHTML = html;
 }
 
+// Simulate sending receipt
+function sendReceipt() {
+  const emailInput = $("receiptEmail").value.trim();
+  const status = $("emailStatus");
+  const order = getOrderDetails();
+
+  if (!emailInput || !emailInput.includes("@")) {
+    status.textContent = "Please enter a valid email address.";
+    status.style.color = "red";
+    return;
+  }
+
+  if (!order.id) {
+    status.textContent = "No order details found.";
+    status.style.color = "red";
+    return;
+  }
+
+  // For now, just simulate success (replace this with actual email service)
+  status.textContent = `Receipt sent to ${emailInput}!`;
+  status.style.color = "green";
+}
+
 function wire() {
   $("backHomeBtn").addEventListener("click", () => {
     window.location.href = "index.html";
   });
+
+  $("sendReceiptBtn").addEventListener("click", sendReceipt);
 }
 
 renderConfirmation();

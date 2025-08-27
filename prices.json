@@ -1,4 +1,3 @@
-
 {
   "cases": [
     {
@@ -73,7 +72,7 @@
       "sku": "10331204",
       "name": "Asus - TUF Gaming B760",
       "brand": "ASUS",
-      "price": 179.00,
+      "price": 179,
       "color": [
         "black"
       ]
@@ -614,7 +613,7 @@
       "brand": "Seagate",
       "type": "hdd",
       "capacityGB": 8192,
-      "price": 213.40
+      "price": 213.4
     },
     {
       "sku": "0000000",

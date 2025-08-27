@@ -173,7 +173,7 @@ label {
 /* Center and space PayPal button */
 .paypal-button-container {
   display: flex;
-  margin-left: 250px;
+  margin-right: 1000px;
   margin-top: 30px; /* adjust this to move button further down */
   width: 50%;
 }

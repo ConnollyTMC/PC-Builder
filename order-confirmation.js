@@ -1,11 +1,9 @@
 const $ = id => document.getElementById(id);
 
-// Get order info from sessionStorage
 function getOrderDetails() {
   return JSON.parse(sessionStorage.getItem("lastOrder") || "{}");
 }
 
-// Render confirmation page
 function renderConfirmation() {
   const details = getOrderDetails();
   const box = $("confirmationDetails");
@@ -34,11 +32,9 @@ function renderConfirmation() {
   }
 
   html += "</ul>";
-
   box.innerHTML = html;
 }
 
-// Simulate sending receipt
 function sendReceipt() {
   const emailInput = $("receiptEmail").value.trim();
   const status = $("emailStatus");
@@ -56,12 +52,34 @@ function sendReceipt() {
     return;
   }
 
-  // For now, simulate success (later you can integrate EmailJS or backend API)
-  status.textContent = `Receipt sent to ${emailInput}!`;
-  status.style.color = "green";
+  const itemsList = order.items.map(i => `${i.name} — $${i.value}`).join("\n");
+
+  emailjs.send(
+    "YOUR_SERVICE_ID",
+    "YOUR_TEMPLATE_ID",
+    {
+      order_id: order.id,
+      name: order.payerName,
+      email: emailInput,
+      phone: order.payerPhone || "",
+      address: order.payerAddress || "",
+      items: itemsList,
+      total: order.amount
+    },
+    "YOUR_PUBLIC_KEY"
+  ).then(
+    () => {
+      status.textContent = `Receipt sent to ${emailInput}!`;
+      status.style.color = "green";
+    },
+    error => {
+      console.error(error);
+      status.textContent = "Failed to send receipt. Please try again.";
+      status.style.color = "red";
+    }
+  );
 }
 
-// Wire buttons
 function wire() {
   $("backHomeBtn").addEventListener("click", () => {
     window.location.href = "index.html";
@@ -69,14 +87,12 @@ function wire() {
 
   $("sendReceiptBtn").addEventListener("click", sendReceipt);
 
-  // Pre-fill email if available from PayPal
   const details = getOrderDetails();
-  if (details.payerEmail) {
-    $("receiptEmail").value = details.payerEmail;
-  }
+  if (details.payerEmail) $("receiptEmail").value = details.payerEmail;
+
+  emailjs.init("YOUR_PUBLIC_KEY");
 }
 
-// Init
 document.addEventListener("DOMContentLoaded", () => {
   renderConfirmation();
   wire();

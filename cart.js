@@ -58,7 +58,6 @@ function wire() {
     window.location.href = "index.html";
   });
 
-  // Checkout button redirects to checkout page
   $("checkoutBtn").addEventListener("click", () => {
     const cart = getCart();
     if (!cart.length) {
@@ -69,7 +68,6 @@ function wire() {
   });
 }
 
-// Initialize
 document.addEventListener("DOMContentLoaded", () => {
   renderCart();
   wire();

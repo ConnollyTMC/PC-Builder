@@ -170,8 +170,3 @@ label {
   font-size: 15px;
   margin-top: 24px;
 }
-#paypal-button-container {
-  display: flex;
-  justify-content: center; /* centers horizontally */
-  margin-top: 20px;       /* moves the button down */
-}

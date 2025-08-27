@@ -50,7 +50,7 @@ function generateFallbackOrderId() {
 
 // Initialize page
 document.addEventListener("DOMContentLoaded", () => {
-  const totalValue = renderCartSummary();
+  renderCartSummary();
 
   // Back to cart button
   $("backCartBtn")?.addEventListener("click", () => {
@@ -60,25 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize PayPal button
   paypal.Buttons({
     createOrder: function (data, actions) {
-      // Check form fields exist
-      const fullNameInput = $("#fullName");
-      const emailInput = $("#email");
-      const phoneInput = $("#phone");
-      const addressInput = $("#address");
-
-      if (!fullNameInput || !emailInput || !phoneInput || !addressInput) {
-        alert("Some required form fields are missing from the page!");
-        console.error("Missing form fields:", {
-          fullNameInput, emailInput, phoneInput, addressInput
-        });
-        return;
-      }
-
-      // Read values
-      const fullName = fullNameInput.value.trim();
-      const email = emailInput.value.trim();
-      const phone = phoneInput.value.trim();
-      const address = addressInput.value.trim();
+      // Read values from form
+      const fullName = $("#fullName")?.value.trim();
+      const email = $("#email")?.value.trim();
+      const phone = $("#phone")?.value.trim();
+      const address = $("#address")?.value.trim();
 
       // Validate
       if (!fullName || !email || !phone || !address) {

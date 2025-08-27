@@ -30,9 +30,20 @@
       Address*:
       <textarea id="address" required></textarea>
     </label>
+
     <h3>Cart Summary</h3>
-    <div id="cartSummary"></div>
-    <div>Total: <span id="cartTotal">$0</span></div>
+    <table id="cartSummary" class="cart-table">
+      <thead>
+        <tr>
+          <th>Configuration</th>
+          <th>Part</th>
+          <th>Selected Option</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="total">Total: <span id="cartTotal">$0</span></div>
 
     <h3>Payment</h3>
     <div id="paypal-button-container"></div>
@@ -41,7 +52,6 @@
   <button class="btn" id="backCartBtn">Back to Cart</button>
 </div>
 
-<!-- PayPal SDK -->
 <script src="https://www.paypal.com/sdk/js?client-id=AQiioH-DGdsjDiNC50Bt0eKQtejnt4NXpGp_q08Zjg8l67HhaozGl5upZVU6RWUesGYlmqkB8w8n_Hde&currency=USD"></script>
 <script src="checkout.js"></script>
 </body>

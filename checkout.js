@@ -68,13 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // Validate form
       if (!fullName || !email || !phone || !address) {
         alert("Please fill out all required fields before payment.");
-        return actions.reject(new Error("Missing required fields"));
+        throw new Error("Missing required fields");
       }
 
       const cart = getCart();
       if (!cart.length) {
         alert("Your cart is empty.");
-        return actions.reject(new Error("Cart is empty"));
+        throw new Error("Cart is empty");
       }
 
       let items = [];
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // ✅ Always return a Promise with an order ID
+      // ✅ Always return the order create promise
       return actions.order.create({
         purchase_units: [{
           amount: {

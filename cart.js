@@ -106,11 +106,30 @@ paypal.Buttons({
 }
 
   onApprove: function(data, actions) {
-    return actions.order.capture().then(function(details) {
-      alert('Payment completed by ' + details.payer.name.given_name);
-      clearCart();
-    });
-  },
+  return actions.order.capture().then(function(details) {
+    // Store order in sessionStorage so checkout page can display it
+    const orderInfo = {
+      id: details.id,
+      status: details.status,
+      payerName: details.payer.name.given_name + " " + details.payer.name.surname,
+      payerEmail: details.payer.email_address,
+      amount: details.purchase_units[0].amount.value,
+      items: details.purchase_units[0].items?.map(i => ({
+        name: i.name,
+        value: i.unit_amount.value
+      })) || []
+    };
+
+    sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
+
+    // Clear cart
+    clearCart();
+
+    // Redirect to confirmation page
+    window.location.href = "checkout.html";
+  });
+},
+
   onError: function(err) {
     console.error(err);
     alert('Payment failed. Please try again.');

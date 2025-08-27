@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
           items: items
         }]
       });
-    },
+    }, // <--- IMPORTANT COMMA HERE ✅
 
     onApprove: function (data, actions) {
       return actions.order.capture().then(details => {
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Redirect to confirmation page
         window.location.href = "order-confirmation.html";
       });
-    },
+    }, // <--- IMPORTANT COMMA HERE ✅
 
     onError: function (err) {
       console.error("PayPal error:", err);

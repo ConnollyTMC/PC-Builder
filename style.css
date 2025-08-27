@@ -155,31 +155,28 @@ label {
   transition: transform 0.15s;
 }
 
-.btn:active {
-  transform: translateY(1px);
-}
+.btn:active { transform: translateY(1px); }
+.btn.clear { background: linear-gradient(180deg,#ef4444,#dc2626); }
 
-.btn.clear {
-  background: linear-gradient(180deg,#ef4444,#dc2626);
-}
-
-.empty, .center {
+.empty {
   text-align: center;
   color: var(--muted);
   padding: 40px 0;
   font-size: 15px;
   margin-top: 24px;
 }
-/* PayPal button wrapper to center button */
+
+/* --------------------------- */
+/* PayPal Button Centering */
+/* --------------------------- */
 #paypal-wrapper {
-  width: fit-content;          /* shrink wrapper to button width */
-  margin: 30px auto 0 auto;    /* 30px top margin, centered horizontally */
+  width: fit-content;             /* shrink wrapper to button width */
+  margin: 30px auto 0 auto;       /* top margin and centered */
 }
 
-/* Optional: make it responsive on small screens */
+/* Optional: responsive for small screens */
 @media (max-width: 500px) {
   #paypal-wrapper {
-    width: 90%;   /* button will scale on smaller screens */
+    width: 90%;                   /* shrink on small screens */
   }
 }
-

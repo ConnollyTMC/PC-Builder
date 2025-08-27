@@ -53,18 +53,58 @@ checkoutBtn.replaceWith(container);
 
 paypal.Buttons({
   createOrder: function(data, actions) {
-    const total = getCartTotal();
-    if(total === '0') {
-      alert('Your cart is empty.');
-      return;
+  const cart = getCart();
+  if (!cart.length) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+  // Build line items
+  let items = [];
+  let total = 0;
+
+  cart.forEach((c, i) => {
+    for (const [k, v] of Object.entries(c)) {
+      if (k === 'estTotal' || !v) continue;
+
+      items.push({
+        name: k + ": " + v,    // e.g. "CPU: Ryzen 7 5800X"
+        unit_amount: {
+          currency_code: "USD",
+          value: "0.00"        // we’ll only charge subtotal line
+        },
+        quantity: "1"
+      });
     }
-    return actions.order.create({
-      purchase_units: [{
-        amount: { value: total },
-        description: 'Custom PC Order'
-      }]
+
+    // Add subtotal line per config
+    const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g,'')) || 0;
+    total += val;
+
+    items.push({
+      name: "Configuration " + (i+1) + " Subtotal",
+      unit_amount: {
+        currency_code: "USD",
+        value: val.toFixed(2)
+      },
+      quantity: "1"
     });
-  },
+  });
+
+  return actions.order.create({
+    purchase_units: [{
+      amount: {
+        currency_code: "USD",
+        value: total.toFixed(2),
+        breakdown: {
+          item_total: { currency_code: "USD", value: total.toFixed(2) }
+        }
+      },
+      items: items
+    }]
+  });
+}
+
   onApprove: function(data, actions) {
     return actions.order.capture().then(function(details) {
       alert('Payment completed by ' + details.payer.name.given_name);

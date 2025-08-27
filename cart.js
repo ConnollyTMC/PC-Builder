@@ -84,7 +84,6 @@ paypal.Buttons({
       return;
     }
 
-    // Build line items
     let items = [];
     let total = 0;
 
@@ -96,13 +95,12 @@ paypal.Buttons({
           name: k + ": " + v,
           unit_amount: {
             currency_code: "USD",
-            value: "0.00" // parts themselves shown as $0, subtotal line carries price
+            value: "0.00"
           },
           quantity: "1"
         });
       }
 
-      // Add subtotal line per config
       const val =
         parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
       total += val;
@@ -138,30 +136,35 @@ paypal.Buttons({
 
   onApprove: function (data, actions) {
     return actions.order.capture().then(function (details) {
-      // Store order details for checkout.html
-      const orderInfo = {
-        id: details.id,
-        status: details.status,
-        payerName:
-          details.payer.name.given_name +
-          " " +
-          details.payer.name.surname,
-        payerEmail: details.payer.email_address,
-        amount: details.purchase_units[0].amount.value,
-        items:
-          details.purchase_units[0].items?.map(i => ({
-            name: i.name,
-            value: i.unit_amount.value
-          })) || []
-      };
+      try {
+        // Save order details
+        const orderInfo = {
+          id: details.id,
+          status: details.status,
+          payerName:
+            details.payer.name.given_name +
+            " " +
+            details.payer.name.surname,
+          payerEmail: details.payer.email_address,
+          amount: details.purchase_units[0].amount.value,
+          items:
+            details.purchase_units[0].items?.map(i => ({
+              name: i.name,
+              value: i.unit_amount.value
+            })) || []
+        };
 
-      sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
+        sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
 
-      // Clear cart
-      clearCart();
+        // ✅ Clear cart from localStorage but DON'T re-render the cart page
+        localStorage.removeItem("cart");
 
-      // Redirect to confirmation page
-      window.location.href = "checkout.html";
+        // ✅ Force redirect to confirmation page
+        window.location.replace("checkout.html");
+      } catch (err) {
+        console.error("Order capture error:", err);
+        alert("Something went wrong saving your order.");
+      }
     });
   },
 

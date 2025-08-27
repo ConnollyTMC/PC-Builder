@@ -177,3 +177,13 @@ label {
   margin-top: 30px; /* adjust this to move button further down */
   width: 100%;
 }
+/* Optional: spacing for cart buttons */
+.total .btn {
+  margin: 5px 10px 0 0;
+}
+
+/* Keep cart items styled nicely */
+.configCard { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; }
+.partRow { display: flex; justify-content: space-between; }
+.price { font-weight: bold; }
+.empty { color: #888; }

@@ -43,8 +43,7 @@ function renderCart() {
       </div>`;
     list.appendChild(div);
 
-    const val =
-      parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
+    const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
     sum += val;
   });
 
@@ -55,16 +54,6 @@ function renderCart() {
 function clearCart() {
   setCart([]);
   renderCart();
-}
-
-// --- Get Cart Total ---
-function getCartTotal() {
-  const cart = getCart();
-  let total = 0;
-  cart.forEach(c => {
-    total += parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
-  });
-  return total.toFixed(2);
 }
 
 // --- Wire Buttons ---
@@ -93,24 +82,17 @@ paypal.Buttons({
 
         items.push({
           name: k + ": " + v,
-          unit_amount: {
-            currency_code: "USD",
-            value: "0.00"
-          },
+          unit_amount: { currency_code: "USD", value: "0.00" },
           quantity: "1"
         });
       }
 
-      const val =
-        parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
+      const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
       total += val;
 
       items.push({
         name: "Configuration " + (i + 1) + " Subtotal",
-        unit_amount: {
-          currency_code: "USD",
-          value: val.toFixed(2)
-        },
+        unit_amount: { currency_code: "USD", value: val.toFixed(2) },
         quantity: "1"
       });
     });
@@ -136,35 +118,27 @@ paypal.Buttons({
 
   onApprove: function (data, actions) {
     return actions.order.capture().then(function (details) {
-      try {
-        // Save order details
-        const orderInfo = {
-          id: details.id,
-          status: details.status,
-          payerName:
-            details.payer.name.given_name +
-            " " +
-            details.payer.name.surname,
-          payerEmail: details.payer.email_address,
-          amount: details.purchase_units[0].amount.value,
-          items:
-            details.purchase_units[0].items?.map(i => ({
-              name: i.name,
-              value: i.unit_amount.value
-            })) || []
-        };
+      // ✅ Unique order number always comes from PayPal
+      const orderInfo = {
+        id: details.id, // <-- this is unique
+        status: details.status,
+        payerName: details.payer.name.given_name + " " + details.payer.name.surname,
+        payerEmail: details.payer.email_address,
+        amount: details.purchase_units[0].amount.value,
+        items: details.purchase_units[0].items?.map(i => ({
+          name: i.name,
+          value: i.unit_amount.value
+        })) || []
+      };
 
-        sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
+      // Save order in sessionStorage
+      sessionStorage.setItem("lastOrder", JSON.stringify(orderInfo));
 
-        // ✅ Clear cart from localStorage but DON'T re-render the cart page
-        localStorage.removeItem("cart");
+      // Clear cart silently (no re-render!)
+      localStorage.removeItem("cart");
 
-        // ✅ Force redirect to confirmation page
-        window.location.replace("checkout.html");
-      } catch (err) {
-        console.error("Order capture error:", err);
-        alert("Something went wrong saving your order.");
-      }
+      // ✅ Redirect to confirmation page
+      window.location.href = "checkout.html";
     });
   },
 
@@ -175,5 +149,7 @@ paypal.Buttons({
 }).render("#paypal-button-container");
 
 // --- Init ---
-renderCart();
-wire();
+document.addEventListener("DOMContentLoaded", () => {
+  renderCart();
+  wire();
+});

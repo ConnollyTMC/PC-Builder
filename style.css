@@ -170,15 +170,16 @@ label {
   font-size: 15px;
   margin-top: 24px;
 }
-/* Center PayPal button correctly */
-#paypal-button-container {
-  text-align: center;   /* centers the inner PayPal iframe */
-  margin-top: 30px;     /* moves the button down from other buttons */
-  width: 100%;          /* full width to allow centering */
+/* PayPal button wrapper to center button */
+#paypal-wrapper {
+  width: fit-content;          /* shrink wrapper to button width */
+  margin: 30px auto 0 auto;    /* 30px top margin, centered horizontally */
 }
 
-/* Make the inner div inline-block so text-align works */
-#paypal-button-container > div {
-  display: inline-block;
+/* Optional: make it responsive on small screens */
+@media (max-width: 500px) {
+  #paypal-wrapper {
+    width: 90%;   /* button will scale on smaller screens */
+  }
 }
 

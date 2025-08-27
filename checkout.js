@@ -60,59 +60,58 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize PayPal button
   paypal.Buttons({
     createOrder: function (data, actions) {
-      // Read values from form
-      const fullName = $("#fullName")?.value.trim();
-      const email = $("#email")?.value.trim();
-      const phone = $("#phone")?.value.trim();
-      const address = $("#address")?.value.trim();
+  const fullName = $("#fullName")?.value.trim();
+  const email = $("#email")?.value.trim();
+  const phone = $("#phone")?.value.trim();
+  const address = $("#address")?.value.trim();
 
-      // Validate
-      if (!fullName || !email || !phone || !address) {
-        alert("Please fill out all required fields before payment.");
-        return;
-      }
+  // Validate form
+  if (!fullName || !email || !phone || !address) {
+    alert("Please fill out all required fields before payment.");
+    return actions.reject(new Error("Missing required fields"));
+  }
 
-      const cart = getCart();
-      if (!cart.length) {
-        alert("Your cart is empty.");
-        return;
-      }
+  const cart = getCart();
+  if (!cart.length) {
+    alert("Your cart is empty.");
+    return actions.reject(new Error("Cart is empty"));
+  }
 
-      let items = [];
-      let total = 0;
+  let items = [];
+  let total = 0;
 
-      cart.forEach((c, i) => {
-        for (const [k, v] of Object.entries(c)) {
-          if (k === "estTotal" || !v) continue;
-          items.push({
-            name: `${k}: ${v}`,
-            unit_amount: { currency_code: "USD", value: "0.00" },
-            quantity: "1"
-          });
+  cart.forEach((c, i) => {
+    for (const [k, v] of Object.entries(c)) {
+      if (k === "estTotal" || !v) continue;
+      items.push({
+        name: `${k}: ${v}`,
+        unit_amount: { currency_code: "USD", value: "0.00" },
+        quantity: "1"
+      });
+    }
+    const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
+    total += val;
+    items.push({
+      name: `Configuration ${i + 1} Subtotal`,
+      unit_amount: { currency_code: "USD", value: val.toFixed(2) },
+      quantity: "1"
+    });
+  });
+
+  // ✅ Always return a Promise with order ID
+  return actions.order.create({
+    purchase_units: [{
+      amount: {
+        currency_code: "USD",
+        value: total.toFixed(2),
+        breakdown: {
+          item_total: { currency_code: "USD", value: total.toFixed(2) }
         }
-        const val = parseFloat((c.estTotal || "0").replace(/[^\d.]/g, "")) || 0;
-        total += val;
-        items.push({
-          name: `Configuration ${i + 1} Subtotal`,
-          unit_amount: { currency_code: "USD", value: val.toFixed(2) },
-          quantity: "1"
-        });
-      });
-
-      // Return the order to PayPal
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            currency_code: "USD",
-            value: total.toFixed(2),
-            breakdown: {
-              item_total: { currency_code: "USD", value: total.toFixed(2) }
-            }
-          },
-          items: items
-        }]
-      });
-    },
+      },
+      items: items
+    }]
+  });
+}
 
     onApprove: function (data, actions) {
       return actions.order.capture().then(details => {

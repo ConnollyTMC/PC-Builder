@@ -14,7 +14,7 @@ function renderCartSummary() {
   if (!cart.length) {
     tbody.innerHTML = '<tr><td colspan="4">Your cart is empty.</td></tr>';
     $("cartTotal").textContent = "$0";
-    return 0;
+    return "0.00";
   }
 
   cart.forEach((c, i) => {
@@ -50,24 +50,40 @@ function generateFallbackOrderId() {
 
 // Initialize page
 document.addEventListener("DOMContentLoaded", () => {
-  renderCartSummary();
+  const totalValue = renderCartSummary();
 
   // Back to cart button
-  $("backCartBtn").addEventListener("click", () => {
+  $("backCartBtn")?.addEventListener("click", () => {
     window.location.href = "cart.html";
   });
 
   // Initialize PayPal button
   paypal.Buttons({
-    createOrder: function(data, actions) {
-      const fullName = $("#fullName").value.trim();
-      const email = $("#email").value.trim();
-      const phone = $("#phone").value.trim();
-      const address = $("#address").value.trim();
+    createOrder: function (data, actions) {
+      // Check form fields exist
+      const fullNameInput = $("#fullName");
+      const emailInput = $("#email");
+      const phoneInput = $("#phone");
+      const addressInput = $("#address");
 
+      if (!fullNameInput || !emailInput || !phoneInput || !addressInput) {
+        alert("Some required form fields are missing from the page!");
+        console.error("Missing form fields:", {
+          fullNameInput, emailInput, phoneInput, addressInput
+        });
+        return;
+      }
+
+      // Read values
+      const fullName = fullNameInput.value.trim();
+      const email = emailInput.value.trim();
+      const phone = phoneInput.value.trim();
+      const address = addressInput.value.trim();
+
+      // Validate
       if (!fullName || !email || !phone || !address) {
         alert("Please fill out all required fields before payment.");
-        return; // stop execution, do not create order
+        return;
       }
 
       const cart = getCart();
@@ -97,32 +113,37 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
 
-      // Must RETURN the order
+      // Return the order to PayPal
       return actions.order.create({
         purchase_units: [{
           amount: {
             currency_code: "USD",
             value: total.toFixed(2),
-            breakdown: { item_total: { currency_code: "USD", value: total.toFixed(2) } }
+            breakdown: {
+              item_total: { currency_code: "USD", value: total.toFixed(2) }
+            }
           },
           items: items
         }]
       });
     },
 
-    onApprove: function(data, actions) {
+    onApprove: function (data, actions) {
       return actions.order.capture().then(details => {
         const orderId = details.id || generateFallbackOrderId();
 
         const orderInfo = {
           id: orderId,
           status: details.status,
-          payerName: $("#fullName").value,
-          payerEmail: $("#email").value,
-          payerPhone: $("#phone").value,
-          payerAddress: $("#address").value,
+          payerName: $("#fullName")?.value || "",
+          payerEmail: $("#email")?.value || "",
+          payerPhone: $("#phone")?.value || "",
+          payerAddress: $("#address")?.value || "",
           amount: details.purchase_units[0].amount.value,
-          items: details.purchase_units[0].items.map(i => ({ name: i.name, value: i.unit_amount.value })) || []
+          items: details.purchase_units[0].items.map(i => ({
+            name: i.name,
+            value: i.unit_amount.value
+          })) || []
         };
 
         // Save to sessionStorage
@@ -136,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     },
 
-    onError: function(err) {
+    onError: function (err) {
       console.error("PayPal error:", err);
       alert("Payment failed. Please try again.");
     }

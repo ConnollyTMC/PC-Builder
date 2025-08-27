@@ -1,32 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Order Confirmation</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Thank You for Your Order!</h1>
-    </header>
+<div class="wrap">
+  <header>
+    <h1>Checkout</h1>
+  </header>
 
-    <div id="confirmationDetails" class="confirmation-box">
-      <!-- Filled by checkout.js -->
-    </div>
+  <form id="orderForm">
+    <h2>Order Information</h2>
+    <label>
+      Full Name*:
+      <input type="text" id="fullName" required />
+    </label>
+    <label>
+      Email*:
+      <input type="email" id="email" required />
+    </label>
+    <label>
+      Phone*:
+      <input type="tel" id="phone" required />
+    </label>
+    <label>
+      Address*:
+      <textarea id="address" required></textarea>
+    </label>
+    <h3>Cart Summary</h3>
+    <div id="cartSummary"></div>
+    <div>Total: <span id="cartTotal">$0</span></div>
 
-    <div class="email-receipt-box">
-      <h3>Email Receipt</h3>
-      <p>Enter your email address to receive a copy of this order:</p>
-      <input type="email" id="receiptEmail" placeholder="you@example.com" />
-      <button class="btn" id="sendReceiptBtn">Send Receipt</button>
-      <div id="emailStatus" class="status"></div>
-    </div>
+    <h3>Payment</h3>
+    <div id="paypal-button-container"></div>
+  </form>
 
-    <button class="btn" id="backHomeBtn">Back to Home</button>
-  </div>
+  <button class="btn" id="backCartBtn">Back to Cart</button>
+</div>
 
-  <script src="checkout.js"></script>
+<!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AQiioH-DGdsjDiNC50Bt0eKQtejnt4NXpGp_q08Zjg8l67HhaozGl5upZVU6RWUesGYlmqkB8w8n_Hde&currency=USD"></script>
+<script src="checkout.js"></script>
 </body>
 </html>

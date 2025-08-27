@@ -7,6 +7,9 @@
   --ok: #22c55e;
   --danger: #ef4444;
   --card: #0f1222;
+
+  /* ✅ Adjustable PayPal width */
+  --paypal-width: 350px;
 }
 
 body {
@@ -165,11 +168,17 @@ label {
   font-size: 15px;
   margin-top: 24px;
 }
-/* Force PayPal buttons to center */
-#paypal-button-container {
-  display: inline-block;   /* shrink to button size */
+
+/* --------------------------- */
+/* PayPal Button Centering */
+/* --------------------------- */
+#paypal-wrapper {
+  margin-top: 30px;
 }
 
-#paypal-wrapper {
-  text-align: center;      /* center the inline-block inside wrapper */
+#paypal-button-container {
+  display: block;
+  width: var(--paypal-width); /* ✅ adjustable */
+  max-width: 100%;
+  margin: 0 auto;
 }

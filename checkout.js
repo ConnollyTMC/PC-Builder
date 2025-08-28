@@ -85,10 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize PayPal button
   paypal.Buttons({
     createOrder: function (data, actions) {
-      const fullName = $("#fullName")?.value.trim();
-      const email = $("#email")?.value.trim();
-      const phone = $("#phone")?.value.trim();
-      const address = $("#address")?.value.trim();
+      const fullName = $("fullName")?.value.trim();
+      const email = $("email")?.value.trim();
+      const phone = $("phone")?.value.trim();
+      const address = $("address")?.value.trim();
 
       // Validate form
       if (!fullName || !email || !phone || !address) {
@@ -153,10 +153,10 @@ console.log("PayPal order payload:", {
         const orderInfo = {
           id: orderId,
           status: details.status,
-          payerName: $("#fullName")?.value || "",
-          payerEmail: $("#email")?.value || "",
-          payerPhone: $("#phone")?.value || "",
-          payerAddress: $("#address")?.value || "",
+          payerName: $("fullName")?.value || "",
+          payerEmail: $("email")?.value || "",
+          payerPhone: $("phone")?.value || "",
+          payerAddress: $("address")?.value || "",
           amount: details.purchase_units[0].amount.value,
           items: details.purchase_units[0].items.map(i => ({
             name: i.name,

@@ -233,7 +233,7 @@
       "sku": "6632713",
       "name": "MSI - GeForce RTX 5060 8GB",
       "brand": "MSI",
-      "price": 349.99,
+      "price": 379.99,
       "color": [
         "black",
         "white"
@@ -508,7 +508,7 @@
       "name": "CORSAIR - RMe Series RM750e - White",
       "brand": "Corsair",
       "wattage": 750,
-      "price": 124.99,
+      "price": 119.99,
       "color": [
         "white"
       ]
@@ -528,7 +528,7 @@
       "name": "CORSAIR - RMe Series RM1000e - White",
       "brand": "Corsair",
       "wattage": 1000,
-      "price": 199.99,
+      "price": 169.99,
       "color": [
         "white"
       ]
@@ -565,7 +565,7 @@
       "brand": "Crucial",
       "type": "ssd",
       "capacityGB": 1024,
-      "price": 66.99
+      "price": 69.99
     },
     {
       "sku": "6465362",

@@ -119,6 +119,18 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
       });
+console.log("PayPal order payload:", {
+  purchase_units: [{
+    amount: {
+      currency_code: "USD",
+      value: total.toFixed(2),
+      breakdown: {
+        item_total: { currency_code: "USD", value: total.toFixed(2) }
+      }
+    },
+    items: items
+  }]
+});
 
       return actions.order.create({
         purchase_units: [{
